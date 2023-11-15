@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 import tableStyles from "../../styles/Table.module.css";
+import UsersNamesModal from "./usersNamesModal";
 
 function Table() {
   const [selected, setSelected] = useState(null);
-  const [actualUser, setActualUser] = useState("Player 1");
+  const [currentPlayer, setCurrentPlayer] = useState("Player 1");
   const [teamsSorted, setTeamsSorted] = useState([]);
   const [uncoveredCards, setUncoveredCards] = useState([]);
   const [msg, setMsg] = useState(null)
-  const [showedModal, setShowedModal] = useState(false)
 
   const [user1, setUser1] = useState("Player 1")
-  const [punt1, setPunt1] = useState(0)
+  const [scorePlayer1, setScorePlayer1] = useState(0)
   const [user2, setUser2] = useState("Player 2")
-  const [punt2, setPunt2] = useState(0)
+  const [scorePlayer2, setScorePlayer2] = useState(0)
 
   const TEAMS = [
     "boca",
@@ -29,18 +29,18 @@ function Table() {
     const len = TEAMS.length;
     const SIZES = [2, 2, 2, 2, 2, 2, 2, 2];
 
-    const localTeams = [];
+    const sortedTeams = [];
     for (let n = 0; n < len * 2; n++) {
       let res;
       do {
         res = Math.round(Math.random() * (len - 1));
       } while (SIZES[res] === 0);
-      localTeams.push(TEAMS[res]);
+      sortedTeams.push(TEAMS[res]);
       SIZES[res]--;
     }
-    setTeamsSorted(localTeams);
+    setTeamsSorted(sortedTeams);
 
-    setActualUser(actualUser === user1 ? user2 : user1);
+    setCurrentPlayer(currentPlayer === user1 ? user2 : user1);
     return () => { };
   }, []);
 
@@ -56,12 +56,12 @@ function Table() {
 
     if (teamsSorted[id] === teamsSorted[selected]) {
       setSelected(null);
-      if (actualUser === user1) {
-        const res = punt1 + 1
-        setPunt1(res)
+      if (currentPlayer === user1) {
+        const res = scorePlayer1 + 1
+        setScorePlayer1(res)
       } else {
-        const res = punt2 + 1
-        setPunt2(res)
+        const res = scorePlayer2 + 1
+        setScorePlayer2(res)
       }
     } else {
       setMsg("No coincide")
@@ -69,39 +69,19 @@ function Table() {
         uncoveredCards.pop()
         uncoveredCards.pop()
         setUncoveredCards(uncoveredCards);
-        setActualUser(user1 === actualUser ? user2 : user1);
+        setCurrentPlayer(user1 === currentPlayer ? user2 : user1);
         setSelected(null);
         setMsg(null)
       }, 3000)
     }
   };
 
-  const showModal = (e) => {
-    setShowedModal(true)
-  }
-
-  const hideModal = (e) => {
-    setShowedModal(false)
-  }
-
   return (
     <div className={tableStyles.main}>
 
-      <div id="myModal" className={`${tableStyles.modal} ${showedModal ? tableStyles.displayBlock : tableStyles.displayNone}`}>
-        <div className={tableStyles.modalContent}>
-          <span className={tableStyles.close} onClick={(e) => hideModal(e)}>&times;</span>
-          <div className={tableStyles.playerForm}>
-            <label>Player 1:</label><input type="text" onChange={e => setUser1(e.target.value)} value={user1} /><br />
-            <label>Player 2:</label><input type="text" onChange={e => setUser2(e.target.value)} value={user2} /><br />
-            <button type="button" onClick={hideModal}>Close</button>
-          </div>
-        </div>
-
-      </div>
-
       <div className={tableStyles.turn}>
-        {`Turno de: ${actualUser == user1 ? user1 : user2}`} <br />
-        <button id="myBtn" onClick={(e) => showModal(e)}>Change players name</button>
+        {`Turno de: ${currentPlayer == user1 ? user1 : user2}`} <br />
+        <UsersNamesModal setUser1={setUser1} user1={user1} setUser2={setUser2} user2={user2} />
       </div>
       <div className={tableStyles.empty} />
       <div className={tableStyles.grid}>
@@ -116,13 +96,13 @@ function Table() {
         <div className={tableStyles.user}>
           {user1}
           <div>
-            {punt1}
+            {scorePlayer1}
           </div>
         </div>
         <div className={tableStyles.user}>
           {user2}
           <div>
-            {punt2}
+            {scorePlayer2}
           </div>
         </div>
       </div>
