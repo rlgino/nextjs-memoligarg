@@ -12,7 +12,7 @@ export default function Home() {
 
       <div className={styles.app}>
         <header>
-          <div className={styles.title}>Memo Liga Argentina</div>
+          <div className={styles.title}>Memo Argentinian Football League</div>
         </header>
         <main>
           <Table />

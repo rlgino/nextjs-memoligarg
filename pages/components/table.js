@@ -3,15 +3,15 @@ import tableStyles from "../../styles/Table.module.css";
 
 function Table() {
   const [selected, setSelected] = useState(null);
-  const [actualUser, setActualUser] = useState("Gino");
+  const [actualUser, setActualUser] = useState("Player 1");
   const [teamsSorted, setTeamsSorted] = useState([]);
   const [uncoveredCards, setUncoveredCards] = useState([]);
   const [msg, setMsg] = useState(null)
   const [showedModal, setShowedModal] = useState(false)
 
-  const [user1, setUser1] = useState("Jugador 1")
+  const [user1, setUser1] = useState("Player 1")
   const [punt1, setPunt1] = useState(0)
-  const [user2, setUser2] = useState("Jugador 2")
+  const [user2, setUser2] = useState("Player 2")
   const [punt2, setPunt2] = useState(0)
 
   const TEAMS = [
@@ -90,9 +90,9 @@ function Table() {
       <div id="myModal" className={`${tableStyles.modal} ${showedModal ? tableStyles.displayBlock : tableStyles.displayNone}`}>
         <div className={tableStyles.modalContent}>
           <span className={tableStyles.close} onClick={(e) => hideModal(e)}>&times;</span>
-          <div>
-            <label>Jugador 1:</label><input type="text" onChange={e => setUser1(e.target.value)} value={user1} />
-            <label>Jugador 1:</label><input type="text" onChange={e => setUser2(e.target.value)} value={user2} />
+          <div className={tableStyles.playerForm}>
+            <label>Player 1:</label><input type="text" onChange={e => setUser1(e.target.value)} value={user1} /><br />
+            <label>Player 2:</label><input type="text" onChange={e => setUser2(e.target.value)} value={user2} /><br />
             <button type="button" onClick={hideModal}>Close</button>
           </div>
         </div>
@@ -100,8 +100,8 @@ function Table() {
       </div>
 
       <div className={tableStyles.turn}>
-        {`Turno de: ${actualUser}`} <br ?>
-        <button id="myBtn" onClick={(e) => showModal(e)}>Open Modal</button>
+        {`Turno de: ${actualUser == user1 ? user1 : user2}`} <br />
+        <button id="myBtn" onClick={(e) => showModal(e)}>Change players name</button>
       </div>
       <div className={tableStyles.empty} />
       <div className={tableStyles.grid}>
