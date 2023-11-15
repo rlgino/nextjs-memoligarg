@@ -7,10 +7,11 @@ function Table() {
   const [teamsSorted, setTeamsSorted] = useState([]);
   const [uncoveredCards, setUncoveredCards] = useState([]);
   const [msg, setMsg] = useState(null)
+  const [showedModal, setShowedModal] = useState(false)
 
-  const user1 = "Jugador 1"
+  const [user1, setUser1] = useState("Jugador 1")
   const [punt1, setPunt1] = useState(0)
-  const user2 = "Jugador 2"
+  const [user2, setUser2] = useState("Jugador 2")
   const [punt2, setPunt2] = useState(0)
 
   const TEAMS = [
@@ -75,9 +76,33 @@ function Table() {
     }
   };
 
+  const showModal = (e) => {
+    setShowedModal(true)
+  }
+
+  const hideModal = (e) => {
+    setShowedModal(false)
+  }
+
   return (
     <div className={tableStyles.main}>
-      <div className={tableStyles.turn}>{`Turno de: ${actualUser}`}</div>
+
+      <div id="myModal" className={`${tableStyles.modal} ${showedModal ? tableStyles.displayBlock : tableStyles.displayNone}`}>
+        <div className={tableStyles.modalContent}>
+          <span className={tableStyles.close} onClick={(e) => hideModal(e)}>&times;</span>
+          <div>
+            <label>Jugador 1:</label><input type="text" onChange={e => setUser1(e.target.value)} value={user1} />
+            <label>Jugador 1:</label><input type="text" onChange={e => setUser2(e.target.value)} value={user2} />
+            <button type="button" onClick={hideModal}>Close</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div className={tableStyles.turn}>
+        {`Turno de: ${actualUser}`} <br ?>
+        <button id="myBtn" onClick={(e) => showModal(e)}>Open Modal</button>
+      </div>
       <div className={tableStyles.empty} />
       <div className={tableStyles.grid}>
         {teamsSorted.map((team, i) => {
