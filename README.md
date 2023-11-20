@@ -6,6 +6,9 @@ This is A memory card game with Argentinian Football clubs logos.
 
 A memory card game involves a set of cards with matching pairs of images or patterns. The cards are placed face down, and players take turns flipping over two cards at a time, aiming to find matching pairs. If a pair is found, the player keeps it; otherwise, the cards are turned face down again. The game continues until all pairs are matched. It's a simple yet effective way to enhance memory and concentration skills.
 
+## API integration
+I added an API for getting data for all teams in Argentinian League, the fetching that I added is inside the table because I plan to move the fetching and allow to change the league.
+
 ## How to play?
 
 1. Setup:

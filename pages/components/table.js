@@ -14,34 +14,34 @@ function Table() {
   const [user2, setUser2] = useState("Player 2")
   const [scorePlayer2, setScorePlayer2] = useState(0)
 
-  const TEAMS = [
-    "boca",
-    "river",
-    "sanlorenzo",
-    "estudiantes",
-    "racing",
-    "independiente",
-    "velez",
-    "huracan",
-  ];
-
   useEffect(() => {
-    const len = TEAMS.length;
-    const SIZES = [2, 2, 2, 2, 2, 2, 2, 2];
+    const initTable = async () => {
+      const res = await fetch("https://apiv2.allsportsapi.com/football/?met=Teams&leagueId=44&APIkey=c1a97f182f07e0427a17922928eef65853c4f83d5a463c10573c6f59815d9dd1")
+      const teamsResult = await res.json()
+      var TEAMS = teamsResult.result
+      TEAMS.forEach(team => {
+        console.log(team.team_name)
+      });
+      const len = TEAMS.length;
+      const SIZES = [];
+      for (let i = 0; i < len/2; i++) {
+        SIZES.push(2)
+      }
 
-    const sortedTeams = [];
-    for (let n = 0; n < len * 2; n++) {
-      let res;
-      do {
-        res = Math.round(Math.random() * (len - 1));
-      } while (SIZES[res] === 0);
-      sortedTeams.push(TEAMS[res]);
-      SIZES[res]--;
+      const sortedTeams = [];
+      for (let n = 0; n < len * 2; n++) {
+        let res;
+        do {
+          res = Math.round(Math.random() * (len - 1));
+        } while (SIZES[res] === 0);
+        sortedTeams.push(TEAMS[res]);
+        SIZES[res]--;
+      }
+      setTeamsSorted(sortedTeams);
+
+      setCurrentPlayer(currentPlayer === user1 ? user2 : user1);
     }
-    setTeamsSorted(sortedTeams);
-
-    setCurrentPlayer(currentPlayer === user1 ? user2 : user1);
-    return () => { };
+    initTable()
   }, []);
 
   const uncoverCard = (id) => {
@@ -88,7 +88,7 @@ function Table() {
         {teamsSorted.map((team, i) => {
           const showCard = uncoveredCards.indexOf(i) > -1 || i === selected;
           return (
-            <img className={tableStyles.box} key={i} src={!showCard ? "afa/afa.jpg" : `afa/${team}.png`} alt="Card" onClick={() => { uncoverCard(i); }} />
+            <img className={tableStyles.box} key={i} src={!showCard ? "afa/afa.jpg" : team.team_logo} alt="Card" onClick={() => { uncoverCard(i); }} />
           );
         })}
       </div>
