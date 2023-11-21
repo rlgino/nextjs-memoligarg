@@ -83,15 +83,6 @@ function Table() {
         {`Turno de: ${currentPlayer == user1 ? user1 : user2}`} <br />
         <UsersNamesModal setUser1={setUser1} user1={user1} setUser2={setUser2} user2={user2} />
       </div>
-      <div className={tableStyles.empty} />
-      <div className={tableStyles.grid}>
-        {teamsSorted.map((team, i) => {
-          const showCard = uncoveredCards.indexOf(i) > -1 || i === selected;
-          return (
-            <img className={tableStyles.box} key={i} src={!showCard ? "afa/afa.jpg" : team.team_logo} alt="Card" onClick={() => { uncoverCard(i); }} />
-          );
-        })}
-      </div>
       <div className={tableStyles.points}>
         <div className={tableStyles.user}>
           {user1}
@@ -106,6 +97,15 @@ function Table() {
           </div>
         </div>
       </div>
+      <div className={tableStyles.grid}>
+        {teamsSorted.map((team, i) => {
+          const showCard = uncoveredCards.indexOf(i) > -1 || i === selected;
+          return (
+            <img className={tableStyles.box} key={i} src={!showCard ? "afa/afa.jpg" : team.team_logo} alt="Card" onClick={() => { uncoverCard(i); }} />
+          );
+        })}
+      </div>
+      <div className={tableStyles.empty} />
     </div>
   );
 }

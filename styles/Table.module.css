@@ -1,7 +1,6 @@
 .main {
     display: grid;
-    grid-template-areas: "turn points"
-        "grid";
+    grid-template-columns: auto auto;
 }
 
 .turn {
@@ -11,10 +10,11 @@
 .grid {
     margin: 3em;
     display: grid;
-    max-width: 50em;
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(7, 1fr);
     grid-gap: .3em;
+    grid-column-start: 1;
+    grid-column-end: 3;
 }
 
 
